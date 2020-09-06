@@ -1,4 +1,3 @@
-my @urls = ();
 my $wasNotEmptyString = "false";
 my $needPrintEmpty = "false";
 while (<>) {
