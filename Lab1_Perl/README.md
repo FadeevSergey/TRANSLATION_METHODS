@@ -43,14 +43,12 @@ while (<>) {
 
 1. Строки, содержащие «cat» в качестве подстроки два раза. Пример
 строк, которые подходят: «catcat», «cat and cat». Пример строк,
-которые не подходят: «catac», «cat», «ccaatt».
-
-[Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/101.perl)
+которые не подходят: «catac», «cat», «ccaatt».  
+[Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/101.perl)  
 2. Строки, содержащие «cat» в качестве слова. Пример строк, которые подходят: «cat», «catapult and cat», «catapult and cat
 and concatenate». Пример строк, которые не подходят: «catcat»,
-«concat», «Cat».
-
-[Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/102.perl)
+«concat», «Cat».  
+[Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/102.perl)  
 3. Строки, содержащие «cat» в качестве подстроки, игнорируйте регистр. Пример строк, которые подходят: «cat», «cat and
 cat», «Cat», «theCATisHERE». Пример строк, которые не подходят:
 «kat», «», «cot».
