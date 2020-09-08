@@ -44,44 +44,55 @@ while (<>) {
 1. Строки, содержащие «cat» в качестве подстроки два раза. Пример
 строк, которые подходят: «catcat», «cat and cat». Пример строк,
 которые не подходят: «catac», «cat», «ccaatt».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/101.perl)
 2. Строки, содержащие «cat» в качестве слова. Пример строк, которые подходят: «cat», «catapult and cat», «catapult and cat
 and concatenate». Пример строк, которые не подходят: «catcat»,
 «concat», «Cat».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/102.perl)
 3. Строки, содержащие «cat» в качестве подстроки, игнорируйте регистр. Пример строк, которые подходят: «cat», «cat and
 cat», «Cat», «theCATisHERE». Пример строк, которые не подходят:
 «kat», «», «cot».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/103.perl)
 4. Строки, содержащие две буквы «z», между которыми ровно три
 символа. Пример строк, которые подходят: «zabcz», «zzxzz». Пример строк, которые не подходят: «zzz», «zz», «zxz»,
 «zzxzxxz»
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/104.perl)
 5. Строки, содержащие две буквы из множества {«x», «y», «z»}, между которыми от 5 до 17 символов. Пример строк, которые подходят: «xabcabcz», «zzzzzzzzzzzzzzzzzz». Пример строк, которые
 не подходят: «xx», «xyz», «zwzwwz».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/105.perl)
 6. Строки, содержащие в качестве слова целое число. Пример строк,
 которые подходят: «Year is 2009.», «1 is a number», «3.1415
 matches because . is not a word char». Пример строк, которые
 не подходят: «Not2Bad», «No digits here».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/106.perl)
 7. Строки, содержащие обратный слеш. Пример строк, которые подходят: «\w denotes word character». Пример строк, которые не
 подходят: «No slashes here».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/107.perl)
 8. Строки, содержащие слово внутри произвольного текста, не
 содержащего скобок, в скобках. Пример строк, которые подходят: «good (excellent) phrase», «good (too bad) phrase»,
 «good ((recursive)) phrase». Пример строк, которые не подходят: «word () is not () in brackets», «bad (() recursive)
 phrase», «no brackets here».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/108.perl)
 9. Строки, не содержащие ведущих или конечных пробельных символов. Пример строк, которые подходят: «Good string», «». Пример строк, которые не подходят: « bad string», «bad string »,
 « very bad string ».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/109.perl)
 10. Строки, содержащие слово, состоящее из двух равных частей (тандемный повтор). Пример строк, которые подходят: «blabla is a
 tandem repetition» «123123 is good too». Пример строк, которые не подходят: «go go», «aaa»,.
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/110.perl)
 11. Строки, содержащие двоичную запись числа, кратного 3. Пример
 строк, которые подходят: «0», «10010». Пример строк, которые не
 подходят: «00101», «Not a number», «1 1», «0 0».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/111.perl)
 
 ## 2 Преобразование строк в файле
@@ -115,41 +126,51 @@ while (<>) {
 «computer». Примеры замен: «I need to understand the
 human mind» → «I need to understand the computer mind»,
 «humanity» → «computerity».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/201.perl)
 2. Заменить все вхождения слова «human» на слово «computer». Запрещается использовать обратные ссылки. Указание: используйте
 «\b». Примеры замен: «I need to understand the human mind»
 → «I need to understand the computer mind», «humanity» →
 «humanity».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/202.perl)
 3. Заменить первое вхождение слова, состоящего только из букв «a»
 (регистр не важен) на слово «argh». Примеры замен: «There’ll be
 no more "Aaaaaaaaaaaaaaa"» → «There’ll be no more "argh"».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/203.perl)
 4. Поменять местами две первых слова в тексте. Примеры замен: «this is a text» → «is this a text», «(This, ) is also
 a text» → «(is, ) This also a text».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/204.perl)
 5. Поменять местами две первых буквы в каждом слове. Примеры
 замен: «this is a text» → «htis si a etxt».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/205.perl)
 6. Заменить все вхождения двух одинаковых букв подряд на одну
 букву. Примеры замен: «attraction» → «atraction», «buzzzz»
 → «buzz».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/206.perl)
 7. Заменить все вхождения нескольких одинаковых букв подряд
 на одну букву. Примеры замен: «attraction» → «atraction»,
 «buzzzz» → «buz».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/207.perl)
 8. Заменить все числа кратные 10 на их частное от деления на 10. В
 этой задаче на вход подаются числа, разделенные пробелами. Примеры замен: «1 2 10 12 20 123 239 566 12800» → «1 2 1 12 2
 123 239 566 1280».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/208.perl)
 9. Удалить символы после каждой открывающейся скобки до ближайшей закрывающейся. Примеры замен: «(word) outside (1
 open (2 open)» → «() outside ()».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/209.perl)
 10. Будем называть хорошей строку, состоящую хотя бы из двух символов, если она начинается с буквы «a» и заканчивается буквой
 «a». Заменить все вхождения трех хороших строк подряд на строку
 «bad». При этом замена должна производиться как только соответствующая подстрока встретилась. Примеры замен: «abaacaada» →
 «bad», «abaacaadaa» → «bada».
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/210.perl)
 
 ## 3 Обработка файлов
@@ -177,6 +198,7 @@ This is sample test
 Remove extarempty lines and leading
 and trailing spaces
 ```
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/301.perl)
 
 2. На вход подается HTML файл. Удалите все HTML теги вместе с их
@@ -203,6 +225,7 @@ It contains some information
 
 Quite stupid
 ```
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/302.perl)
 
 3. На вход подается HTML файл. Найдите все ссылки вида
@@ -218,4 +241,5 @@ Quite stupid
 ctddev.ifmo.ru
 neerc.ifmo.ru
 ```
+
 [Решение](https://github.com/FadeevSergey/TRANSLATION_METHODS/blob/master/Lab1_Perl/303.perl)
