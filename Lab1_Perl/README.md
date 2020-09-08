@@ -141,7 +141,7 @@ open (2 open)» → «() outside ()».
 Во всех остальных строках удалить ведущие и концевые пробелы,
 а последовательность из двух или более пробелов подряд заменить
 на один пробел.
-Примеры
+Пример:
 ```
        This is sample test
 
@@ -155,4 +155,41 @@ This is sample test
 
 Remove extarempty lines and leading
 and trailing spaces
+```
+2. На вход подается HTML файл. Удалите все HTML теги вместе с их
+атрибутами. Оставшийся текст отформатируйте как в предыдущем
+задании.
+Пример:
+```
+<html>
+<body>
+<p>This is sample test</p>
+<p>
+It contains some information
+</p>
+<p align="right">
+Quite stupid
+</p>
+</body>
+</html>
+```
+```
+This is sample test
+
+It contains some information
+
+Quite stupid
+```
+3. На вход подается HTML файл. Найдите все ссылки вида
+«<a href="...">» в этом документе и выведите список сайтов, на документы которых он ссылается. Сайты следует выводить в алфавитном порядке, формат ссылки — см RFC 3986
+(http://tools.ietf.org/html/rfc3986).
+Пример: 
+```
+<a href="http://neerc.ifmo.ru/school">
+<a href="http://neerc.ifmo.ru">
+<a href="ctddev.ifmo.ru:1328" >
+```
+```
+ctddev.ifmo.ru
+neerc.ifmo.ru
 ```
