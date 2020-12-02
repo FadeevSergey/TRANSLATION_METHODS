@@ -1,0 +1,41 @@
+expression       -> FUN + expressionTail
+expressionTail   -> NAME + parameters + returnExpression
+
+returnExpression -> COLON + TYPE
+returnExpression -> EPS
+
+parametersWithBrackets -> LB + RB
+parametersWithBrackets -> LB + NAME + colonTypeParamTail
+
+colonTypeParamTail     -> COLON + TYPE + parametersTail
+
+parametersTail         -> RB
+parametersTail         -> COMMA + NAME + colonTypeParamTail
+
+
+FUN   = "fun"
+COLON = ":"
+EPS   = ""
+COMMA = ","
+LB    = "("
+RB    = ")"
+
+TYPE  = <type>
+NAME  = <name>
+
+| FIRST |
+expression:             FUN, NAME
+expressionTail:         NAME
+returnExpression:       COLON, EPS
+parametersWithBrackets: LB
+parametersTail:         RB, COMMA
+colonTypeParamTail:     COLON
+
+| FOLLOW |
+
+expression:             END
+expressionTail:         END
+returnExpression:       END
+parametersWithBrackets: END, COLON
+parametersTail:         RB
+colonTypeParamTail:     RB
