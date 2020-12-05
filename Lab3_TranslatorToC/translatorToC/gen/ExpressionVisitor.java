@@ -19,18 +19,6 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(ExpressionParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#structsBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStructsBlock(ExpressionParser.StructsBlockContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#funcsBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFuncsBlock(ExpressionParser.FuncsBlockContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#mainBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -42,6 +30,30 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMainSubBlock(ExpressionParser.MainSubBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#print}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrint(ExpressionParser.PrintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#newVar}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewVar(ExpressionParser.NewVarContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#equating}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquating(ExpressionParser.EquatingContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#eqRight}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqRight(ExpressionParser.EqRightContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#forBlock}.
 	 * @param ctx the parse tree
@@ -85,12 +97,6 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(ExpressionParser.VariableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ExpressionParser#condition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCondition(ExpressionParser.ConditionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#newLine}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -102,4 +108,108 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMaybeNewLine(ExpressionParser.MaybeNewLineContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#mathExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathExpression(ExpressionParser.MathExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code binaryExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBinaryExpression(ExpressionParser.BinaryExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code decimalExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecimalExpression(ExpressionParser.DecimalExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code boolExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolExpression(ExpressionParser.BoolExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code identifierExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifierExpression(ExpressionParser.IdentifierExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code notExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotExpression(ExpressionParser.NotExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parenExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenExpression(ExpressionParser.ParenExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mathhExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathhExpression(ExpressionParser.MathhExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code comparatorExpression}
+	 * labeled alternative in {@link ExpressionParser#logExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparatorExpression(ExpressionParser.ComparatorExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#readVar}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReadVar(ExpressionParser.ReadVarContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#constOrVar}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstOrVar(ExpressionParser.ConstOrVarContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#mathOperators}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathOperators(ExpressionParser.MathOperatorsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#comparator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparator(ExpressionParser.ComparatorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(ExpressionParser.TypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#binary}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBinary(ExpressionParser.BinaryContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#bool}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBool(ExpressionParser.BoolContext ctx);
 }

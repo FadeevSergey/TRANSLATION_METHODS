@@ -1,6 +1,6 @@
 package TreeNodes;
 
-public class MatExpression {
+public class MatExpression implements EqRight{
     private final String expression;
     private final Types type;
 
