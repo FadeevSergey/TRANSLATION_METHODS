@@ -4,26 +4,32 @@ grammar Expression;
     import TreeNodes.*;
 }
 
-program returns [Node node] :
-      main=mainBlock               {$node=new Program($main.node)}
+program returns [Program node] :
+      main=mainBlock               {$node=new Program($main.main)}
     ;
 
-mainBlock returns [Node node] :
-    | maybeNewLine subBlock=mainSubBlock mainTail=mainBlock maybeNewLine       {$node=$subBlock.node}
+mainBlock returns [MainBlock main] :
+    | maybeNewLine subBlock=mainSubBlock mainTail=mainBlock maybeNewLine
+        {
+            $main=new MainBlock($subBlock.block, $mainTail.main)
+        }
     | maybeNewLine
+        {
+            $main=null
+        }
     ;
 
-mainSubBlock returns [Node node] :
-      maybeNewLine for=forBlock maybeNewLine         {$node=$for.node}
-    | maybeNewLine while=whileBlock maybeNewLine     {$node=$while.node}
-    | maybeNewLine if=ifBlock maybeNewLine           {$node=$if.node}
-    | maybeNewLine eq=equating maybeNewLine
-    | maybeNewLine new=newVar
-    | maybeNewLine pnt=print maybeNewLine
+mainSubBlock returns [Node block] :
+      maybeNewLine for=forBlock maybeNewLine         {$block=$for.for}
+    | maybeNewLine while=whileBlock maybeNewLine     {$block=$while.node}
+    | maybeNewLine if=ifBlock maybeNewLine           {$block=$if.node}
+    | maybeNewLine eq=equating maybeNewLine          {$block=null}
+    | maybeNewLine new=newVar                        {$block=null}
+    | maybeNewLine pnt=print maybeNewLine            {$block=$pnt.pnt}
     ;
 
-print :
-      PRINT_TOKEN RLB_TOKEN variable RRB_TOKEN
+print returns [Print pnt]:
+      PRINT_TOKEN RLB_TOKEN vr=variable RRB_TOKEN       {$pnt=new Print($vr.var)}
     ;
 
 newVar :
@@ -39,15 +45,15 @@ equating :
 
 eqRight :
       mathExpression
-    | readVar
+    | vr=readVar
     ;
 
-forBlock returns [Node node] :
-      FOR WHITE_SPACE var=variable WHITE_SPACE IN WHITE_SPACE RANGE rng=range maybeNewLine CLB_TOKEN main=mainBlock CRB_TOKEN {$node = new ForBlock($var.node, $rng.node, $main.node);}
+forBlock returns [ForBlock for] :
+      FOR WHITE_SPACE var=variable WHITE_SPACE IN WHITE_SPACE RANGE rng=range maybeNewLine CLB_TOKEN main=mainBlock CRB_TOKEN {$for = new ForBlock($var.var, $rng.rng, $main.main);}
      ;
 
 whileBlock returns [Node node] :
-      WHILE WHITE_SPACE cnd=logExpression maybeNewLine CLB_TOKEN main=mainBlock CRB_TOKEN {$node=new WhileBlock($cnd.text, $main.node)}
+      WHILE WHITE_SPACE cnd=logExpression maybeNewLine CLB_TOKEN main=mainBlock CRB_TOKEN {$node=new WhileBlock($cnd.text, $main.main)}
      ;
 
 ifBlock returns [Node node] :
@@ -56,21 +62,21 @@ ifBlock returns [Node node] :
     ;
 
 justIf returns [JustIf node] :
-      IF WHITE_SPACE cnd=logExpression maybeNewLine CLB_TOKEN body=mainBlock CRB_TOKEN maybeNewLine {$node=new JustIf($cnd.text, $body.node)}
+      IF WHITE_SPACE cnd=logExpression maybeNewLine CLB_TOKEN body=mainBlock CRB_TOKEN maybeNewLine {$node=new JustIf($cnd.text, $body.main)}
     ;
 
 ifElse returns [Node node] :
-      if=justIf ELSE maybeNewLine CLB_TOKEN body=mainBlock CRB_TOKEN {$node=new EfElseBlock($if.node.getCondition(), $if.node.body(), $body.node)}
+      if=justIf ELSE maybeNewLine CLB_TOKEN body=mainBlock CRB_TOKEN {$node=new EfElseBlock($if.node.getCondition(), $if.node.body(), $body.main)}
     ;
 
-range returns [Node node] :
+range returns [Range rng] :
 //      RLB_TOKEN leftVar=mathExpression COLON rightVar=mathExpression RRB_TOKEN {$node=new range($leftVar.node, $rightVar.node)}
-      RLB_TOKEN leftVar=mathExpression COLON_G_TOKEN rightVar=mathExpression RRB_TOKEN
+      RLB_TOKEN leftVar=mathExpression COLON_G_TOKEN rightVar=mathExpression RRB_TOKEN {$rng=new Range(0, 100)}
     ;
 
 
-variable returns [Node node] :
-      VARIABLE_TOKEN                                      {$node = new Var($VARIABLE_TOKEN.text);}
+variable returns [Var var] :
+      VARIABLE_TOKEN                                      {$var = new Var($VARIABLE_TOKEN.text, Types.Unknown);}
     ;
 
 newLine :
@@ -87,29 +93,29 @@ maybeNewLine :
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-mathExpression :
-      RLB_TOKEN WHITE_SPACE* mathExpression WHITE_SPACE* RRB_TOKEN
+mathExpression returns [Types tpe]:
+      RLB_TOKEN WHITE_SPACE* mathExpression WHITE_SPACE* RRB_TOKEN {}
     | left=mathExpression WHITE_SPACE* op=mathOperators WHITE_SPACE* right=mathExpression
     | variable
     | DECIMAL
     ;
 
-logExpression [String str]:
-      RLB_TOKEN WHITE_SPACE* logExpression WHITE_SPACE* RRB_TOKEN {$str=new String()}                    #parenExpression
-    | NOT_TOKEN WHITE_SPACE* logExpression                        {$str=new String()}                   #notExpression
-    | left=logExpression WHITE_SPACE* op=comparator WHITE_SPACE* right=logExpression {$str=new String()} #comparatorExpression
-    | left=logExpression WHITE_SPACE* op=binary WHITE_SPACE* right=logExpression     {$str=new String()} #binaryExpression
-    | bool                                                                           {$str=new String()} #boolExpression
-    | variable                                                                       {$str=new String()} #identifierExpression
-    | DECIMAL                                                                        {$str=new String()} #decimalExpression
-    | me=mathExpression                                                              {$str=new String()} #mathhExpression
+logExpression:
+      RLB_TOKEN WHITE_SPACE* logExpression WHITE_SPACE* RRB_TOKEN                     #parenExpression
+    | NOT_TOKEN WHITE_SPACE* logExpression                                            #notExpression
+    | left=logExpression WHITE_SPACE* op=comparator WHITE_SPACE* right=logExpression  #comparatorExpression
+    | left=logExpression WHITE_SPACE* op=binary WHITE_SPACE* right=logExpression      #binaryExpression
+    | bool                                                                            #boolExpression
+    | variable                                                                        #identifierExpression
+    | DECIMAL                                                                         #decimalExpression
+    | me=mathExpression                                                               #mathhExpression
     ;
 
-readVar :
-      READ_INT_TYPE    RLB_TOKEN RRB_TOKEN
-    | READ_DOUBLE_TYPE RLB_TOKEN RRB_TOKEN
-    | READ_CHAR_TYPE   RLB_TOKEN RRB_TOKEN
-    | READ_BOOL_TYPE   RLB_TOKEN RRB_TOKEN
+readVar returns [Types tpe] :
+      READ_INT_TYPE    RLB_TOKEN RRB_TOKEN  {$tpe = Types.Int}
+    | READ_DOUBLE_TYPE RLB_TOKEN RRB_TOKEN  {$tpe = Types.Double}
+    | READ_CHAR_TYPE   RLB_TOKEN RRB_TOKEN  {$tpe = Types.Char}
+    | READ_BOOL_TYPE   RLB_TOKEN RRB_TOKEN  {$tpe = Types.Bool}
     ;
 
 constOrVar :
