@@ -4,5 +4,6 @@ public enum Types {
     Int,
     Char,
     Double,
-    Bool
+    Bool,
+    Unknown
 }

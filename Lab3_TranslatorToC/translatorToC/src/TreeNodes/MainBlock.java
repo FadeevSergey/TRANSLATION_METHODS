@@ -1,11 +1,11 @@
 package TreeNodes;
 
-import java.util.ArrayList;
-
 public class MainBlock implements Node {
-    private final ArrayList<Node> mainBlocks;
+    private final MainSubBlock subBlock;
+    private final MainBlock mainBlock;
 
-    public MainBlock(ArrayList<Node> mainBlocks) {
-        this.mainBlocks = mainBlocks;
+    public MainBlock(MainSubBlock subBlock, MainBlock mainBlock) {
+        this.subBlock = subBlock;
+        this.mainBlock = mainBlock;
     }
 }
