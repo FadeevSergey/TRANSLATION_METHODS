@@ -1,6 +1,6 @@
 package TreeNodes;
 
-public class MatExpression {
+public class MatExpression extends NodeClass implements EqRight, Node{
     private final String expression;
     private final Types type;
 
@@ -15,5 +15,9 @@ public class MatExpression {
 
     public Types getType() {
         return this.type;
+    }
+
+    public String toString(int padding) {
+        return expression;
     }
 }

@@ -1,5 +1,5 @@
 package TreeNodes;
 
 public interface Node {
-//    public toString();
+    public String toString(int padding);
 }
