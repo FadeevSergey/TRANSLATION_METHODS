@@ -20,55 +20,44 @@ mainBlock returns [MainBlock main] :
     ;
 
 mainSubBlock returns [Node block] :
-      maybeNewLine forBlc=forBlock maybeNewLine         {$block=$forBlc.for}
-    | maybeNewLine whileBlc=whileBlock maybeNewLine     {$block=$whileBlc.node}
-    | maybeNewLine ifBlc=ifBlock maybeNewLine           {$block=$ifBlc.node}
-    | maybeNewLine eqBlc=equating maybeNewLine          {$block=$eqBlc.equat}
-    | maybeNewLine newBlc=newVar maybeNewLine           {$block=$newVar.expr}
-    | maybeNewLine pntBlc=print maybeNewLine            {$block=$pntBlc.pnt}
+      maybeNewLine for=forBlock maybeNewLine         {$block=$for.for}
+    | maybeNewLine while=whileBlock maybeNewLine     {$block=$while.node}
+    | maybeNewLine if=ifBlock maybeNewLine           {$block=$if.node}
+    | maybeNewLine eq=equating maybeNewLine          {$block=null}
+    | maybeNewLine new=newVar                        {$block=null}
+    | maybeNewLine pnt=print maybeNewLine            {$block=$pnt.pnt}
     ;
 
 print returns [Print pnt]:
       PRINT_TOKEN RLB_TOKEN vr=variable RRB_TOKEN       {$pnt=new Print($vr.var)}
     ;
 
-newVar returns [NewVar expr]:
-      mut=constOrVar WHITE_SPACE var=variable COLON_V_TOKEN WHITE_SPACE* t=type  WHITE_SPACE* EQ_TOKEN WHITE_SPACE* right=eqRight
-      {
-          $expr=new NewVar($mut.mutable, $var.var, $t.t, $right.right)
-      }
-    | mut=constOrVar WHITE_SPACE var=variable COLON_V_TOKEN WHITE_SPACE* t=type
-      {
-          $expr=new NewVar($mut.mutable, $var.var, $t.t, null)
-      }
-    | mut=constOrVar WHITE_SPACE var=variable WHITE_SPACE* EQ_TOKEN WHITE_SPACE* right=eqRight
-      {
-          $expr=new NewVar($mut.mutable, $var.var, null, $right.right)
-      }
+newVar :
+      constOrVar WHITE_SPACE variable COLON_V_TOKEN WHITE_SPACE* type  WHITE_SPACE* EQ_TOKEN WHITE_SPACE* eqRight
+    | constOrVar WHITE_SPACE variable COLON_V_TOKEN WHITE_SPACE* type
+    | constOrVar WHITE_SPACE variable WHITE_SPACE* EQ_TOKEN WHITE_SPACE* eqRight
     ;
 
-equating returns [Equating equat]:
-      var=variable WHITE_SPACE* EQ_TOKEN WHITE_SPACE* right=eqRight {$equat=new Equating($var.var, $right.right)}
+equating :
+      constOrVar WHITE_SPACE variable WHITE_SPACE* EQ_TOKEN WHITE_SPACE* eqRight
+    |                         variable WHITE_SPACE* EQ_TOKEN WHITE_SPACE* eqRight
     ;
 
-eqRight returns [EqRight right] :
-      mathExpression {}
+eqRight :
+      mathExpression
     | vr=readVar
     ;
 
 forBlock returns [ForBlock for] :
       FOR WHITE_SPACE var=variable WHITE_SPACE IN WHITE_SPACE RANGE rng=range maybeNewLine CLB_TOKEN main=mainBlock CRB_TOKEN {$for = new ForBlock($var.var, $rng.rng, $main.main);}
-    ;
+     ;
 
 whileBlock returns [Node node] :
-      WHILE WHITE_SPACE cnd=logExpression maybeNewLine CLB_TOKEN main=mainBlock CRB_TOKEN
-      {
-          $node=new WhileBlock($cnd.text, $main.main)
-      }
-    ;
+      WHILE WHITE_SPACE cnd=logExpression maybeNewLine CLB_TOKEN main=mainBlock CRB_TOKEN {$node=new WhileBlock($cnd.text, $main.main)}
+     ;
 
 ifBlock returns [Node node] :
-      maybeNewLine ifBlc=justIf maybeNewLine             {$node=new JustIf($ifBlc.node)}
+      maybeNewLine if=justIf maybeNewLine             {$node=new JustIf($if.node)}
     | maybeNewLine ifAndElse=ifElse maybeNewLine         {$node=new IfAndElse($ifElse.node)}
     ;
 
@@ -77,16 +66,14 @@ justIf returns [JustIf node] :
     ;
 
 ifElse returns [Node node] :
-      ifBlc=justIf ELSE maybeNewLine CLB_TOKEN body=mainBlock CRB_TOKEN
-      {
-          $node=new EfElseBlock($ifBlc.node.getCondition(), $ifBlc.node.body(), $body.main)
-      }
+      if=justIf ELSE maybeNewLine CLB_TOKEN body=mainBlock CRB_TOKEN {$node=new EfElseBlock($if.node.getCondition(), $if.node.body(), $body.main)}
     ;
 
 range returns [Range rng] :
 //      RLB_TOKEN leftVar=mathExpression COLON rightVar=mathExpression RRB_TOKEN {$node=new range($leftVar.node, $rightVar.node)}
       RLB_TOKEN leftVar=mathExpression COLON_G_TOKEN rightVar=mathExpression RRB_TOKEN {$rng=new Range(0, 100)}
     ;
+
 
 variable returns [Var var] :
       VARIABLE_TOKEN                                      {$var = new Var($VARIABLE_TOKEN.text, Types.Unknown);}
@@ -107,10 +94,10 @@ maybeNewLine :
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 mathExpression returns [Types tpe]:
-      RLB_TOKEN WHITE_SPACE* mathExpression WHITE_SPACE* RRB_TOKEN {}
-    | left=mathExpression WHITE_SPACE* op=mathOperators WHITE_SPACE* right=mathExpression
-    | variable
-    | DECIMAL
+      RLB_TOKEN WHITE_SPACE* mathExpression WHITE_SPACE* RRB_TOKEN                        {$tpe=Types.Unknown}
+    | left=mathExpression WHITE_SPACE* op=mathOperators WHITE_SPACE* right=mathExpression {$tpe=Types.Unknown}
+    | variable {$tpe=Types.Unknown}
+    | DECIMAL  {$tpe=Types.Unknown}
     ;
 
 logExpression:
@@ -131,9 +118,9 @@ readVar returns [Types tpe] :
     | READ_BOOL_TYPE   RLB_TOKEN RRB_TOKEN  {$tpe = Types.Bool}
     ;
 
-constOrVar returns [ConstOrVar mutable]:
-      VAR_TOKEN {$mutable=ConstOrVar.VAR}
-    | LET_TOKEN {$mutable=ConstOrVar.LET}
+constOrVar :
+      VAR_TOKEN
+    | LET_TOKEN
     ;
 
 mathOperators :
@@ -153,11 +140,11 @@ comparator :
     | NOT_EQ_TOKEN
     ;
 
-type returns [Types t]:
-      INT_TYPE {$t=Types.Int}
-    | DOUBLE_TYPE {$t=Types.Double}
-    | CHAR_TYPE {$t=Types.Char}
-    | BOOL_TYPE {$t=Types.Bool}
+type :
+      INT_TYPE
+    | DOUBLE_TYPE
+    | CHAR_TYPE
+    | BOOL_TYPE
     ;
 
 binary :
