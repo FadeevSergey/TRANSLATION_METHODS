@@ -9,19 +9,19 @@ public class Range extends NodeClass implements Node {
 //        this.rightLimit = rightLimit;
 //    }
 
-    private final MatExpression leftLimit;
-    private final MatExpression rightLimit;
+    private final MathExpression leftLimit;
+    private final MathExpression rightLimit;
 
-    public Range(MatExpression leftLimit, MatExpression rightLimit) {
+    public Range(MathExpression leftLimit, MathExpression rightLimit) {
         this.leftLimit = leftLimit;
         this.rightLimit = rightLimit;
     }
 
-    public MatExpression getLeft() {
+    public MathExpression getLeft() {
         return leftLimit;
     }
 
-    public MatExpression getRight() {
+    public MathExpression getRight() {
         return rightLimit;
     }
 

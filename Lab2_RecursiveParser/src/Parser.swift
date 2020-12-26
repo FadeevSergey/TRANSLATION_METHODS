@@ -96,6 +96,8 @@ class Parser {
         var result: Tree?
         
         switch lexer!.curToken! {
+        case .end:
+            result = Tree(node: "eps")
         case .rightBracket:
             result = Tree(node: "rightBracket")
         case .comma:
@@ -119,50 +121,24 @@ class Parser {
         return result ?? Tree(node: "")
     }
     
-    private func parseColonTypeParamTail() -> Tree {
-        var result: Tree?
-        
-        switch lexer!.nextToken() {
-        case .colon:
-            switch lexer!.nextToken() {
-            case .type(let type):
-                _ = lexer!.nextToken()
-                
-                let paramTail = parseParametersTail()
-                
-                result = Tree(node: "colonTypeParamTail",
-                              children:
-                                [
-                                 Tree(node: "colon"),
-                                 Tree(node: "type", children: [Tree(node: type)]),
-                                 paramTail
-                                ])
-            default:
-                print("Err")
-            }
-        default:
-            print("Err")
-        }
-        
-        return result ?? Tree(node: " ")
-    }
-    
     private func parseReturnExpr() -> Tree {
         var result: Tree?
         switch lexer!.curToken!{
         case .end:
             result = Tree(node: "returnExpr", children: [Tree(node: "eps")])
         case .colon:
-            switch lexer!.nextToken() {
-            case Token.type(let name):
-                result = Tree(node: "returnExpr",
-                              children: [
-                                Tree(node: "colon"),
-                                Tree(node: "type", children: [Tree(node: name)])
-                              ])
-            default:
-                print("Err")
-            }
+            let type = parseType()
+
+            let paramTail = parseParametersTail()
+            
+            result = Tree(node: "returnExpr",
+                          children:
+                            [
+                             Tree(node: "colon"),
+                             type,
+                             paramTail
+                            ])
+            
         default:
             print("Err")
         }
@@ -170,4 +146,78 @@ class Parser {
         return result ?? Tree(node: "")
     }
     
+    private func parseColonTypeParamTail() -> Tree {
+        var result: Tree?
+        
+        switch lexer!.nextToken() {
+        case .colon:
+            let type = parseType()
+
+            let paramTail = parseParametersTail()
+            
+            result = Tree(node: "colonTypeParamTail",
+                          children:
+                            [
+                             Tree(node: "colon"),
+                             type,
+                             paramTail
+                            ])
+        default:
+            print("Err")
+        }
+        
+        return result ?? Tree(node: " ")
+    }
+    
+    private func parseType() -> Tree {
+        var result: Tree?
+        
+        switch lexer!.nextToken() {
+        case .type(let name):
+            _ = lexer!.nextToken()
+            ///////////////////////////
+            let typeTail = parseTypeTail()
+            switch lexer!.curToken! {
+            case .comma, .rightBracket, .rightTrBracket, .end:
+                result = Tree(node: "parseType",
+                              children: [
+                                Tree(node: "type", children: [Tree(node: name)]),
+                                typeTail
+                              ])
+            
+            default:
+                print("Err parseType2")
+            }
+            
+        default:
+            print("Err parseType1")
+        }
+        return result ?? Tree(node: " ")
+    }
+    
+    private func parseTypeTail() -> Tree {
+        var result: Tree?
+        
+        switch lexer!.curToken! {
+        case .comma, .rightTrBracket, .rightBracket, .end:
+            result = Tree(node: "eps")
+        case .leftTrBracket:
+            
+            let type = parseType()
+            
+            switch lexer!.nextToken() {
+            case .comma, .rightBracket, .rightTrBracket, .end:
+                result = Tree(node: "parseTypeTail", children: [
+                    Tree(node: "leftTrBracket"),
+                    type,
+                    Tree(node: "rightTrBracket")
+                ])
+            default:
+                print("Err parseTypeTail2")
+            }
+        default:
+            print("Err parseTypeTail1")
+        }
+        return result ?? Tree(node: " ")
+    }
 }

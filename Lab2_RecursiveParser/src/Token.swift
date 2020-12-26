@@ -16,5 +16,7 @@ enum Token {
     case comma
     case leftBracket
     case rightBracket
+    case leftTrBracket
+    case rightTrBracket
     case end
 }

@@ -1,17 +1,21 @@
 expression       -> FUN + expressionTail
-expressionTail   -> NAME + parameters + returnExpression
+expressionTail   -> NAME + parametersWithBrackets + returnExpression
 
-returnExpression -> COLON + TYPE
+returnExpression -> COLON + type
 returnExpression -> EPS
 
 parametersWithBrackets -> LB + RB
 parametersWithBrackets -> LB + NAME + colonTypeParamTail
 
-colonTypeParamTail     -> COLON + TYPE + parametersTail
+colonTypeParamTail     -> COLON + type + parametersTail
 
 parametersTail         -> RB
 parametersTail         -> COMMA + NAME + colonTypeParamTail
 
+type             -> TYPE + typeTail
+
+typeTail         -> < + type + >
+typeTail         -> EPS
 
 FUN   = "fun"
 COLON = ":"
@@ -19,6 +23,8 @@ EPS   = ""
 COMMA = ","
 LB    = "("
 RB    = ")"
+L_TR_B = "<"
+R_TR_B = ">"
 
 TYPE  = <type>
 NAME  = <name>

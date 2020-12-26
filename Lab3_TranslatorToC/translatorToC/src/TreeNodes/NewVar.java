@@ -17,6 +17,7 @@ public class NewVar extends NodeClass implements Node {
             this.type = type;
         }
 
+
         VarTable.addVar(var.getName(), this.type);
     }
 
@@ -27,7 +28,8 @@ public class NewVar extends NodeClass implements Node {
             if(mutable == ConstOrVar.LET) {
                 result += "const ";
             }
-            result += right.getType().getCStyleType() + " ";
+
+            result += type.getCStyleType() + " ";
             result += var.toString(0);
             if(right != null) {
                 if(right instanceof ReadVar) {
@@ -36,8 +38,8 @@ public class NewVar extends NodeClass implements Node {
                 } else {
                     result += " = " + right.toString(0);
                 }
-                result += ";\n";
             }
+            result += ";\n";
         } else {
             String tempVarName = "__temp_var_" + var.toString(0) + "__";
             result += type.getCStyleType() + " ";

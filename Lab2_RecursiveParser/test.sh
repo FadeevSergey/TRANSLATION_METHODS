@@ -9,6 +9,10 @@ tests=("fun foo()"
        "fun veryLongFuncNameeeeeee(first: Int, second: Double): Boolean"
        "fun f(a: Int, b: Double, c: Byte, d: Short, e: Long)"
        "fun funcName(a: Int, b: Double, c: Byte, d: Short, e: Long, f: Int, g: Double, h: Byte, i: Short, g: Long, k: Int, l: Double, m: Byte, n: Short, o: Long): ReturnType"
+       "fun sum(a: Class1<Class2<Class3<Class4<Int>>>>, b: Char): MyClass<AlsoMyClass<Int>>"
+       "fun sum(a: Class1<Class2<Class3<Class4<Int>>>>, b: Char)"
+       "fun sum(a: Class<Int>, b: Char): MyClass<AlsoMyClass<Int>>"
+       "fun sum(): MyClass<Int>"
         )
         
 number=0

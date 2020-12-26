@@ -18,11 +18,11 @@ public class IfElseBlock extends NodeClass implements Node {
     public String toString(int padding) {
         return getPadding(padding) + "if(" + condition + ")" + "\n" +
                 getPadding(padding) + "{" + "\n" +
-                ifBlock.toString(padding + 1) + "\n" +
+                ifBlock.toString(padding + 1) +
                 getPadding(padding) + "}" + "\n" +
                 getPadding(padding) + "else" + "\n" +
                 getPadding(padding) + "{" + "\n" +
-                elseBlock.toString(padding + 1) + "\n" +
+                elseBlock.toString(padding + 1) +
                 getPadding(padding) + "}" + "\n";
     }
 }

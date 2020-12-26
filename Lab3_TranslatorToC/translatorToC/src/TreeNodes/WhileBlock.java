@@ -10,9 +10,9 @@ public class WhileBlock extends NodeClass implements Node {
     }
 
     public String toString(int padding) {
-        return getPadding(padding) + "while(" + condition.toString() + ")" + "\n" +
+        return getPadding(padding) + "while(" + condition + ")" + "\n" +
                 getPadding(padding) + "{" + "\n" +
-                body.toString(padding + 1) + "\n" +
-                getPadding(padding + 1) + "}" + "\n";
+                body.toString(padding + 1) +
+                getPadding(padding) + "}" + "\n";
     }
 }

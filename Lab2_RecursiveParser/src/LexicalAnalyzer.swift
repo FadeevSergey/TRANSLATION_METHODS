@@ -42,6 +42,12 @@ class LexicalAnalyzer{
             case ")":
                 nextChar()
                 curToken = Token.rightBracket
+            case "<":
+                nextChar()
+                curToken = Token.leftTrBracket
+            case ">":
+                nextChar()
+                curToken = Token.rightTrBracket
             default:
                 let nextWord: String = readWord()
                 if nextWord != "" {
@@ -74,10 +80,10 @@ class LexicalAnalyzer{
     }
 
     private func readWord() -> String {
-        var result = "" + String(curChar!)
+        var result = String(curChar!)
         while curPosition < expression.count {
             nextChar()
-            if curChar != nil && curChar!.isLetter {
+            if curChar != nil && (curChar!.isLetter || curChar!.isNumber) {
                 result = result + String(curChar!)
             } else {
                 break;

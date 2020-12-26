@@ -20,7 +20,7 @@ public class JustIfBlock extends NodeClass implements Node {
     public String toString(int padding) {
         return getPadding(padding) + "if(" + condition + ")" + "\n" +
                 getPadding(padding) + "{" + "\n" +
-                body.toString(padding + 1) + "\n" +
+                body.toString(padding + 1) +
                 getPadding(padding) + "}" + "\n";
     }
 }

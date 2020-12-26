@@ -13,7 +13,9 @@ public class ForBlock extends NodeClass implements Node {
     }
 
     public String toString(int padding) {
-        return getPadding(padding) + "for(" + VarTable.getType(var.getName()).getCStyleType() + " " + var.toString(0) + " = " + range.getLeft().toString(0) + "; " + var.toString(0) + " < " + range.getRight().toString(0) + "; " + "++" + var.toString(0) + ")" + "\n" +
+        return getPadding(padding) + "for(" + VarTable.getType(var.getName()).getCStyleType() + " " + var.toString(0) + " = " + range.getLeft().toString(0) + "; " +
+                var.toString(0) + " < " + range.getRight().toString(0) + "; " +
+                "++" + var.toString(0) + ")" + "\n" +
                 getPadding(padding) + "{" + "\n" +
                 body.toString(padding + 1) +
                 getPadding(padding) + "}" + "\n";
